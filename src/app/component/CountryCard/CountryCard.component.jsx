@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {CardItem} from './subPages/';
+import { CardItem } from "./subPages/";
 
 import { Container } from "./CountryCard.elements";
 
-
-
-function CountryCard({ countryCode, countryCodeList, setCountryCodeList}) {
+function CountryCard({ countryCode, countryCodeList, setCountryCodeList }) {
   const [covidCountryData, setCovidCountryData] = useState(null);
 
   const getCovidByCountry = () => {
@@ -23,37 +21,46 @@ function CountryCard({ countryCode, countryCodeList, setCountryCodeList}) {
     axios
       .request(options)
       .then(function (response) {
-        setCovidCountryData(response.data);
+      
+        setCountryCodeList((previousData) => [...previousData,response.data])
+        return response.data;
         // console.log(response.data[0]);
       })
       .catch(function (error) {
         console.error(error);
       });
   };
+  const allCountriesWithCovidData = [];
 
   useEffect(() => {
+    
+    
     getCovidByCountry();
-    console.log(covidCountryData);
+    // console.log(covidCountryData);
     // setCountryCodeList(countryCodeList.push(countryCode))
-    setCountryCodeList([...countryCodeList, countryCode ]);
-    console.log(countryCodeList);
-    
-    
-
+    setCountryCodeList([...countryCodeList]);
+    // console.log(countryCodeList);
   }, [countryCode]);
+
+  console.log(countryCodeList);
+
 
   return (
     <Container>
+      {countryCodeList ? (
+        countryCodeList.map((country, index) => (
+              <CardItem
+               countryName={`${countryCodeList[index][0].country} (${countryCodeList[index][0].code})`}
+          confirmedCases={countryCodeList[index][0].confirmed}
+          recoveredCases={countryCodeList[index][0].recovered}
+          criticalCases={countryCodeList[index][0].critical}
+          deathCases={countryCodeList[index][0].deaths}
+              />
+            ))
+
      
-      {covidCountryData ? (
-        <CardItem
-          countryName={`${covidCountryData[0].country} (${covidCountryData[0].code})`}
-          confirmedCases={covidCountryData[0].confirmed}
-          recoveredCases={covidCountryData[0].recovered}
-          criticalCases={covidCountryData[0].critical}
-          deathCases={covidCountryData[0].deaths}
-        />
-     
+      
+    
       ) : null}
     </Container>
   );

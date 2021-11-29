@@ -5,9 +5,16 @@ export const CountryItem = styled.div`
     transition: 0s.3s;
     display: flex;
     flex-direction: column;
-    
+    flex-grow: 1;
+    margin: 10px;
+    padding: 10px;
+    align-self: center;
+    align-content: center;
     justify-content: space-evenly;
-    width: 200px;
+    text-align: center;
+    max-width: 300px;
+    width: fit-content;
+    justify-content: space-evenly;
     
 
     &:hover {

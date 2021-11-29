@@ -4,7 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 
-import {selectedContinent} from '../../../redux/slices/countryDataSlice';
+import {selectedContinent, getCountriesData} from '../../../redux/slices/countriesDataSlice';
 
 
 import {
@@ -19,13 +19,15 @@ export default function MyContainer({
   setContinent,
   actualCountryCode,
   setCountryCode,
-  setCountryCodeList
+  setCountryCodeList,
+  countriesData
 }) {
 
   const dispatch = useDispatch();
 
   const handleContinentChange = (e) => {
     dispatch(selectedContinent(e.target.value));
+    dispatch(getCountriesData())
   };
   const handleCountryChange = (e) => {
     setCountryCode(e.target.value);
@@ -49,11 +51,11 @@ export default function MyContainer({
         <Wrapper>
           <Label htmlFor="realSearch">Choose Country</Label>
           <SearchSelect id="realSearch" onClick={handleCountryChange}>
-            {Object.keys(actualCountryCode).map((code, index) => (
+            {Object.keys(countriesData).map((code, index) => (
               <option
-                key={index}countryDataSlice
+                key={countriesData}countryDataSlice
                 value={code}
-              >{`${actualCountryCode[code].country} (${code})`}</option>
+              >{`${countriesData[code].country} (${code})`}</option>
             ))}
           </SearchSelect>
         </Wrapper>
