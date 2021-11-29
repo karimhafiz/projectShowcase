@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {CardItem} from './subPages/';
 
-import { Card } from "../../component";
+import { Container } from "./CountryCard.elements";
 
-function CountryCard({ countryCode }) {
+
+
+function CountryCard({ countryCode, countryCodeList, setCountryCodeList}) {
   const [covidCountryData, setCovidCountryData] = useState(null);
 
   const getCovidByCountry = () => {
@@ -31,22 +34,29 @@ function CountryCard({ countryCode }) {
   useEffect(() => {
     getCovidByCountry();
     console.log(covidCountryData);
+    // setCountryCodeList(countryCodeList.push(countryCode))
+    setCountryCodeList([...countryCodeList, countryCode ]);
+    console.log(countryCodeList);
+    
+    
+
   }, [countryCode]);
 
-  if (countryCode) {
-    return (
-      <>
-        <h1>Hello</h1>
-        <Card covidCountryData={covidCountryData} />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <h1>you must choose a country first for this to render</h1>
-      </>
-    );
-  }
+  return (
+    <Container>
+     
+      {covidCountryData ? (
+        <CardItem
+          countryName={`${covidCountryData[0].country} (${covidCountryData[0].code})`}
+          confirmedCases={covidCountryData[0].confirmed}
+          recoveredCases={covidCountryData[0].recovered}
+          criticalCases={covidCountryData[0].critical}
+          deathCases={covidCountryData[0].deaths}
+        />
+     
+      ) : null}
+    </Container>
+  );
 }
 
 export default CountryCard;

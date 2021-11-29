@@ -4,9 +4,11 @@ import axios from "axios";
 import { MyContainer, CountryCard } from '../component'
 function Home() {
     const countryCodeURL = process.env.REACT_APP_COUNTRY_CODE
-    const [continent, setContinent] = useState();
+    const [continent, setContinent] = useState("asia");
     const [actualCountryCode, setActualCountryCode] = useState([]);
-    const [countryCode, setCountryCode] = useState('');
+    const [countryCode, setCountryCode] = useState('gb');
+    const [countryCodeList, setCountryCodeList] = useState([]);
+
 
 
     const actualCountryCodeFUnc = () => {
@@ -27,6 +29,7 @@ function Home() {
 
     useEffect(() => {
         actualCountryCodeFUnc();
+        console.log(countryCodeList);
 
     }, [continent])
 
@@ -36,10 +39,10 @@ function Home() {
         <>
 
 
-            <MyContainer setContinent={setContinent} actualCountryCode={actualCountryCode} setCountryCode={setCountryCode}>
+            <MyContainer setContinent={setContinent} actualCountryCode={actualCountryCode} setCountryCode={setCountryCode} setCountryCodeList={setCountryCodeList}>
             </MyContainer>
             <hr />
-            <CountryCard countryCode={countryCode} />
+            <CountryCard countryCode={countryCode} countryCodeList={countryCodeList} setCountryCodeList={setCountryCodeList} />
 
 
 
