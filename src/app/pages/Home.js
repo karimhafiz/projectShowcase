@@ -7,7 +7,7 @@ function Home() {
     const [continent, setContinent] = useState();
     const [actualCountryCode, setActualCountryCode] = useState([]);
     const [countryCode, setCountryCode] = useState('');
-    const [covidCountryData, setCovidCountryData] = useState([]);
+
 
     const actualCountryCodeFUnc = () => {
         var options = {
@@ -23,43 +23,24 @@ function Home() {
     }
 
 
-    const getCovidByCountry = () => {
-        var options = {
-            method: 'GET',
-            url: 'https://covid-19-data.p.rapidapi.com/country/code',
-            params: { code: countryCode },
-            headers: {
-                'x-rapidapi-host': 'covid-19-data.p.rapidapi.com',
-                'x-rapidapi-key': 'ec5779dd37msh036e47009c6bae8p19577fjsn5f8bbbe0380c'
-            }
-        };
 
-        axios.request(options).then(function (response) {
-            setCovidCountryData(response.data)
-            // console.log(response.data[0]);
-        }).catch(function (error) {
-            console.error(error);
-        });
-    };
 
     useEffect(() => {
         actualCountryCodeFUnc();
 
     }, [continent])
 
-    useEffect(() => {
-        getCovidByCountry();
-
-    }, [countryCode])
 
 
     return (
         <>
 
+
             <MyContainer setContinent={setContinent} actualCountryCode={actualCountryCode} setCountryCode={setCountryCode}>
             </MyContainer>
             <hr />
-            <CountryCard countryCode={countryCode} covidCountryData={covidCountryData} />
+            <CountryCard countryCode={countryCode} />
+
 
 
         </>
